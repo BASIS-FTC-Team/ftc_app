@@ -83,6 +83,22 @@ public class AutoRedFront extends LinearOpMode {
         motor2.setPower(0);
         motor3.setPower(0);
 
+        if(detectID == 1){
+            motor0.setPower(1);
+            motor1.setPower(-1);
+            motor2.setPower(-1);
+            motor3.setPower(1);
+        }
+        else if(detectID == 2){
+            motor0.setPower(-1);
+            motor1.setPower(1);
+            motor2.setPower(1);
+            motor3.setPower(-1);
+        }
+        else{
+
+        }
+
 
     }
 
