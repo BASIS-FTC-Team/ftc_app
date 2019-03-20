@@ -93,6 +93,8 @@ public class TeleOpTest extends LinearOpMode {
     static final double INCREMENT   = 0.01;     // amount to slew servo each CYCLE_MS cycle
     static final int    CYCLE_MS    =   50;     // period of each cycle
 
+    Servo servo;
+
     static boolean sucking = false;
     static boolean pushing = false;
     static boolean isClawOpened = true;
@@ -153,8 +155,10 @@ public class TeleOpTest extends LinearOpMode {
                     turn  =  -gamepad2.right_stick_x*0.25;
                     driveTrain.move(drivex,drivey,turn);
                 }
-
-
+                if(gamepad1.a) {
+                    servo.setPosition(1.0);
+                    servo.setPosition(0);
+                }
             // Show the elapsed game time and wheel power.
             TelemetryWrapper.setLine(4,"Motors in drivex: " + drivex +"drivey: " + drivey+" turn: "+turn);
 

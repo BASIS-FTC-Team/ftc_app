@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
@@ -24,6 +25,7 @@ public class AutoRedFront extends LinearOpMode {
     //ColorSensor colorSensor;
     private Config config = new Config(Config.configFile);
     private GoldDetector gd;
+    DcMotor motor0, motor1, motor2, motor3;
 
     @Override
     public void runOpMode() {
@@ -51,9 +53,6 @@ public class AutoRedFront extends LinearOpMode {
 
         TelemetryWrapper.init(telemetry,7);
 
-        //turn on color sensor light
-        //colorSensor.enableLed(true);
-        //drop jewel arm so color sensor can detect
         runtime.reset();
         TelemetryWrapper.setLine(2,"" + opModeIsActive() + runtime.seconds());
         gd.init(hardwareMap,config);
@@ -70,5 +69,26 @@ public class AutoRedFront extends LinearOpMode {
                 default: TelemetryWrapper.setLine(4,"No Gold found!");
             }
         }
+
+        //Code here to lower the robot
+        motor0.setPower(1);
+        motor1.setPower(1);
+        motor2.setPower(1);
+        motor3.setPower(1);
+
+        sleep(1000);
+
+        motor0.setPower(0);
+        motor1.setPower(0);
+        motor2.setPower(0);
+        motor3.setPower(0);
+
+
+    }
+
+    public static void sleep(int time){
+        try{
+            Thread.sleep(time);
+        } catch (Exception e) {}
     }
 }
