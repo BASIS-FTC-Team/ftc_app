@@ -30,14 +30,17 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
 
 
 import org.firstinspires.ftc.teamcode.util.ButtonHelper;
 import org.firstinspires.ftc.teamcode.util.Config;
+
+
+//import org.firstinspires.ftc.robotcontroller.external.samples.ConceptVuforiaNavigation;
+import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 
 import static org.firstinspires.ftc.teamcode.util.ButtonHelper.dpad_down;
 import static org.firstinspires.ftc.teamcode.util.ButtonHelper.dpad_up;
@@ -51,23 +54,6 @@ import static org.firstinspires.ftc.teamcode.util.ButtonHelper.x;
 import static org.firstinspires.ftc.teamcode.util.ButtonHelper.y;
 import static org.firstinspires.ftc.teamcode.util.ButtonHelper.start;
 
-
-
-
-//import org.firstinspires.ftc.robotcontroller.external.samples.ConceptVuforiaNavigation;
-import org.firstinspires.ftc.robotcore.external.ClassFactory;
-import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
-import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
-import org.firstinspires.ftc.robotcore.external.navigation.VuMarkInstanceId;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
 
 import org.firstinspires.ftc.teamcode.util.telemetry.TelemetryWrapper;
@@ -114,12 +100,14 @@ public class TeleOpTest extends LinearOpMode {
 
         helper = new ButtonHelper(gamepad1);
         helper2 = new ButtonHelper(gamepad2);
+        RoverArm roverArm = new RoverArm();
 
 
         DriveTrain driveTrain = new DriveTrain();
 
 
         driveTrain.init(hardwareMap,config);
+        roverArm.init(hardwareMap,config);
 
 
 
@@ -161,8 +149,20 @@ public class TeleOpTest extends LinearOpMode {
 
             TelemetryWrapper.setLine(5, "Press Stop to end test." );
 
+            if(helper.pressed(dpad_up)){
+                if(!roverArm.isTouched())
+                roverArm.moveUp();
+                TelemetryWrapper.setLine(1,"Container Move Down at speed: "+ -1*roverArm.LIFT_POWER);
+                //TelemetryWrapper.setLine(8,"Container current postion: "+ roverArm.getLiftPosition());
 
-
+            } else if(helper.pressed(dpad_down)){
+                roverArm.moveDown();
+                TelemetryWrapper.setLine(1,"Container Move Down at speed: "+ roverArm.LIFT_POWER);
+                TelemetryWrapper.setLine(8,"Container current postion: "+ roverArm.getLiftPosition());
+            } else {
+                roverArm.stop();
+                TelemetryWrapper.setLine(1,"Container Stopped!");
+            }
 
             //     if(vuMark != RelicRecoveryVuMark.UNKNOWN) sleep(CYCLE_MS);
             idle();
