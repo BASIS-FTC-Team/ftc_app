@@ -32,7 +32,6 @@ public class RoverArm {
         verticalMotor2.setDirection(DcMotor.Direction.REVERSE);
 //    verticalMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 //    verticalMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //touchSensor = hwMap.get(DigitalChannel.class, "sensor_touch");
 
         LIFT_POWER = config.getDouble("lift_power", 0.30);
 
