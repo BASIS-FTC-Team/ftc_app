@@ -101,15 +101,13 @@ public class TeleOpTest extends LinearOpMode {
         helper = new ButtonHelper(gamepad1);
         helper2 = new ButtonHelper(gamepad2);
         RoverArm roverArm = new RoverArm();
+        ForeArm foreArm = new ForeArm();
 
         DriveTrain driveTrain = new DriveTrain();
-
-
+        
         driveTrain.init(hardwareMap,config);
         roverArm.init(hardwareMap,config);
-
-
-
+        foreArm.init(hardwareMap,config);
 
 
         // Wait for the start button
@@ -147,6 +145,10 @@ public class TeleOpTest extends LinearOpMode {
 
 
             TelemetryWrapper.setLine(5, "Press Stop to end test." );
+
+            if (gamepad1.b) { foreArm.moveUp();}
+            if (gamepad1.x) { foreArm.moveDown();}
+
 
             if(helper.pressed(dpad_up)){
                 if(!roverArm.isTouched())
