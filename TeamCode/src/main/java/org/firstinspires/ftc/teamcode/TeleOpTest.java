@@ -104,7 +104,7 @@ public class TeleOpTest extends LinearOpMode {
         ForeArm foreArm = new ForeArm();
 
         DriveTrain driveTrain = new DriveTrain();
-        
+
         driveTrain.init(hardwareMap,config);
         roverArm.init(hardwareMap,config);
         foreArm.init(hardwareMap,config);
