@@ -127,8 +127,8 @@ public class TeleOpTest extends LinearOpMode {
             helper.update();
             helper2.update();
 
-            double drivey =  gamepad1.left_stick_y;
-            double drivex =  gamepad1.left_stick_x;
+            double drivey =  -gamepad1.left_stick_y;
+            double drivex =  -gamepad1.left_stick_x;
             double turn  =  -gamepad1.right_stick_x;
 
 
@@ -166,6 +166,8 @@ public class TeleOpTest extends LinearOpMode {
                 TelemetryWrapper.setLine(2,"Swipe OUT");
             }
 
+            if(gamepad1.start) mineralCollector.swipePause();
+
             /* For opening or closing the mineral collector holder */
             if (gamepad1.dpad_left) {
                 mineralCollector.openHolder();
@@ -179,8 +181,8 @@ public class TeleOpTest extends LinearOpMode {
             if (Math.abs(drivey) > 0.01 || Math.abs(drivex) > 0.01 || Math.abs(turn) > 0.01) {
                 driveTrain.move(drivex, drivey, turn);
             } else {
-                drivey = gamepad2.left_stick_y * 0.25;
-                drivex = gamepad2.left_stick_x * 0.25;
+                drivey = -gamepad2.left_stick_y * 0.25;
+                drivex = -gamepad2.left_stick_x * 0.25;
                 turn = -gamepad2.right_stick_x * 0.25;
                 driveTrain.move(drivex, drivey, turn);
             }
@@ -196,20 +198,12 @@ public class TeleOpTest extends LinearOpMode {
                     roverArm.moveUp();
                     TelemetryWrapper.setLine(1,"Container Move Up at speed: "+ (-1)*roverArm.LIFT_POWER);
                     TelemetryWrapper.setLine(8,"Container current postion: "+ roverArm.getLiftPosition());
-                }else {
-                    roverArm.stop();
-                    TelemetryWrapper.setLine(1,"Touch sensor PRESSED when going UP. Container Stopped!");
                 }
             } else if(helper.pressed(dpad_down)){
-                if(!roverArm.isTouched()) {
                     TelemetryWrapper.setLine(0, "Not Touched when going DOWN");
                     roverArm.moveDown();
                     TelemetryWrapper.setLine(1, "Container Move Down at speed: " + roverArm.LIFT_POWER);
                     TelemetryWrapper.setLine(8, "Container current postion: " + roverArm.getLiftPosition());
-                } else {
-                    roverArm.stop();
-                    TelemetryWrapper.setLine(1,"Touch sensor PRESSED when going DOWN. Container Stopped!");
-                }
             } else {
                 roverArm.stop();
                 TelemetryWrapper.setLine(1,"dpad up/down not pressed. Container Stopped!");
