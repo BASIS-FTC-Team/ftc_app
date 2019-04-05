@@ -27,7 +27,7 @@ public class RoverArm {
         hwMap = Map;
         verticalMotor = hwMap.get(DcMotor.class, "rover_elevator");
         //verticalMotor2 = hwMap.get(DcMotor.class, "rover_elevator2");
-        touchSensor = hwMap.get(DigitalChannel.class, "elevator_touch");
+        touchSensor = hwMap.get(DigitalChannel.class, "elevatortouch");
         verticalMotor.setDirection(DcMotor.Direction.REVERSE);
         //verticalMotor2.setDirection(DcMotor.Direction.REVERSE);
 //    verticalMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

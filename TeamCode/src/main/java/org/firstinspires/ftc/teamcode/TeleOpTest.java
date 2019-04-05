@@ -102,13 +102,14 @@ public class TeleOpTest extends LinearOpMode {
         helper2 = new ButtonHelper(gamepad2);
         RoverArm roverArm = new RoverArm();
         ForeArm foreArm = new ForeArm();
+        MineralCollector mineralCollector = new MineralCollector();
 
         DriveTrain driveTrain = new DriveTrain();
 
         driveTrain.init(hardwareMap,config);
         roverArm.init(hardwareMap,config);
         foreArm.init(hardwareMap,config);
-
+        mineralCollector.init(hardwareMap,config);
 
         // Wait for the start button
         telemetry.addData(">", "Press Start to Servo test for arm and container." );
@@ -129,45 +130,100 @@ public class TeleOpTest extends LinearOpMode {
             double drivey =  gamepad1.left_stick_y;
             double drivex =  gamepad1.left_stick_x;
             double turn  =  -gamepad1.right_stick_x;
-            if(Math.abs(drivey)>0.01||Math.abs(drivex)>0.01||Math.abs(turn)>0.01) {
-                driveTrain.move(drivex,drivey,turn);
-                }
-                else{
-                    drivey =  gamepad2.left_stick_y*0.25;
-                    drivex =  gamepad2.left_stick_x*0.25;
-                    turn  =  -gamepad2.right_stick_x*0.25;
-                    driveTrain.move(drivex,drivey,turn);
-                }
 
+
+            /* For Forearm to move UP or DOWN */
+            if (gamepad1.b) {
+                foreArm.moveUp();
+                TelemetryWrapper.setLine(3,"b pressed. Fore Arm move UP");
+            } else
+            if (gamepad1.x) {
+                foreArm.moveDown();
+                TelemetryWrapper.setLine(3,"x pressed. Fore Arm move DOWN");
+            } else {
+                foreArm.stopUpDown();
+                TelemetryWrapper.setLine(3,"b or x not pressed. Fore Arm UpDown stopped");
+            }
+
+            /* For Forearm to move FORWARD or BACKWARD */
+            if (gamepad1.a) {
+                foreArm.moveForward();
+                TelemetryWrapper.setLine(3,"a pressed. Fore Arm move FORWARD");
+            } else if (gamepad1.y) {
+                foreArm.moveBackward();
+                TelemetryWrapper.setLine(3,"y pressed. Fore Arm move BACKWAR");
+            } else {
+                foreArm.stopForthBack();
+                TelemetryWrapper.setLine(3,"a or y not pressed. Fore Arm FandB stopped");
+            }
+
+            /* For collecting the minerals */
+            if (gamepad1.left_bumper) {
+                mineralCollector.swipeIn();
+                TelemetryWrapper.setLine(2,"Swipe IN");
+            } else if (gamepad1.right_bumper) {
+                mineralCollector.swipeOut();
+                TelemetryWrapper.setLine(2,"Swipe OUT");
+            }
+
+            /* For opening or closing the mineral collector holder */
+            if (gamepad1.dpad_left) {
+                mineralCollector.openHolder();
+                TelemetryWrapper.setLine(2,"Open the Holder");
+            } else if (gamepad1.dpad_right) {
+                mineralCollector.closeHolder();
+                TelemetryWrapper.setLine(2,"Close the Holder");
+            }
+
+
+            if (Math.abs(drivey) > 0.01 || Math.abs(drivex) > 0.01 || Math.abs(turn) > 0.01) {
+                driveTrain.move(drivex, drivey, turn);
+            } else {
+                drivey = gamepad2.left_stick_y * 0.25;
+                drivex = gamepad2.left_stick_x * 0.25;
+                turn = -gamepad2.right_stick_x * 0.25;
+                driveTrain.move(drivex, drivey, turn);
+            }
 
             // Show the elapsed game time and wheel power.
             TelemetryWrapper.setLine(4,"Motors in drivex: " + drivex +"drivey: " + drivey+" turn: "+turn);
-
-
             TelemetryWrapper.setLine(5, "Press Stop to end test." );
 
-            if (gamepad1.b) { foreArm.moveUp();}
-            if (gamepad1.x) { foreArm.moveDown();}
-
-            if (gamepad1.a) { foreArm.moveForward();}
-            if (gamepad1.y) { foreArm.moveBackward();}
 
             if(helper.pressed(dpad_up)){
-                if(!roverArm.isTouched())
-                roverArm.moveUp();
-                TelemetryWrapper.setLine(1,"Container Move Down at speed: "+ -1*roverArm.LIFT_POWER);
-                //TelemetryWrapper.setLine(8,"Container current postion: "+ roverArm.getLiftPosition());
-
+                if(!roverArm.isTouched()) {
+                    TelemetryWrapper.setLine(0, "Not Touched when going UP");
+                    roverArm.moveUp();
+                    TelemetryWrapper.setLine(1,"Container Move Up at speed: "+ (-1)*roverArm.LIFT_POWER);
+                    TelemetryWrapper.setLine(8,"Container current postion: "+ roverArm.getLiftPosition());
+                }else {
+                    roverArm.stop();
+                    TelemetryWrapper.setLine(1,"Touch sensor PRESSED when going UP. Container Stopped!");
+                }
             } else if(helper.pressed(dpad_down)){
-                roverArm.moveDown();
-                TelemetryWrapper.setLine(1,"Container Move Down at speed: "+ roverArm.LIFT_POWER);
-                TelemetryWrapper.setLine(8,"Container current postion: "+ roverArm.getLiftPosition());
+                if(!roverArm.isTouched()) {
+                    TelemetryWrapper.setLine(0, "Not Touched when going DOWN");
+                    roverArm.moveDown();
+                    TelemetryWrapper.setLine(1, "Container Move Down at speed: " + roverArm.LIFT_POWER);
+                    TelemetryWrapper.setLine(8, "Container current postion: " + roverArm.getLiftPosition());
+                } else {
+                    roverArm.stop();
+                    TelemetryWrapper.setLine(1,"Touch sensor PRESSED when going DOWN. Container Stopped!");
+                }
             } else {
                 roverArm.stop();
-                TelemetryWrapper.setLine(1,"Container Stopped!");
+                TelemetryWrapper.setLine(1,"dpad up/down not pressed. Container Stopped!");
+
+            }
+
+            if(roverArm.isTouched()){
+                TelemetryWrapper.setLine(0,"Touch sensor pressed");
+            } else {
+                TelemetryWrapper.setLine(0,"Touch sensor NOT pressed");
             }
 
             //     if(vuMark != RelicRecoveryVuMark.UNKNOWN) sleep(CYCLE_MS);
+
             idle();
         }
 
