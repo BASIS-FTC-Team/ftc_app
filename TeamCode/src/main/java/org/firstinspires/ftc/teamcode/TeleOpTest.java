@@ -159,14 +159,14 @@ public class TeleOpTest extends LinearOpMode {
 
             /* For collecting the minerals */
             if (gamepad1.left_bumper) {
-                mineralCollector.swipeIn();
-                TelemetryWrapper.setLine(2,"Swipe IN");
+                mineralCollector.wipeIn();
+                TelemetryWrapper.setLine(2,"Wipe IN");
             } else if (gamepad1.right_bumper) {
-                mineralCollector.swipeOut();
-                TelemetryWrapper.setLine(2,"Swipe OUT");
+                mineralCollector.wipeOut();
+                TelemetryWrapper.setLine(2,"Wipe OUT");
             }
 
-            if(gamepad1.start) mineralCollector.swipePause();
+            if(gamepad1.start) mineralCollector.wipePause();
 
             /* For opening or closing the mineral collector holder */
             if (gamepad1.dpad_left) {

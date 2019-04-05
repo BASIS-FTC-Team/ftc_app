@@ -10,15 +10,15 @@ import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.teamcode.util.Config;
 
 public class MineralCollector {
-    private CRServo servo1;  // Rotate to swipe in
+    private CRServo servo1;  // Rotate to wipe in
     private Servo servo2;  // Turn over the holder
 
-    double HOLDER_OPEN = 0.65;
-    double HOLDER_CLOSED = 0.23;
+    private double HOLDER_OPEN = 0.65;
+    private double HOLDER_CLOSED = 0.23;
 
-    double SWIPE_SPEED = 0.99;
-    boolean isRunning = false;
-    boolean isSwipeOut = false;
+    private double WIPE_SPEED = 0.99;
+    private boolean isRunning = false;
+    private boolean isWipeOut = false;
 
 
 
@@ -29,10 +29,10 @@ public class MineralCollector {
 
         HOLDER_CLOSED = config.getDouble("holder_closed_pos", 0.23);
         HOLDER_OPEN = config.getDouble("holder_open_pos", 0.65);
-        SWIPE_SPEED = config.getDouble("swipe_rotation_speed", 0.99);
+        WIPE_SPEED = config.getDouble("wipe_rotation_speed", 0.99);
 
         hwMap = Map;
-        servo1 = hwMap.crservo.get("swipe_servo");
+        servo1 = hwMap.crservo.get("wipe_servo");
         servo2 = hwMap.get(Servo.class, "turn_servo");
 
         servo1.setPower(0);
@@ -40,36 +40,35 @@ public class MineralCollector {
 
     }
 
-    public void swipeIn() {
+    public void wipeIn() {
         servo1.setDirection(CRServo.Direction.FORWARD);
-        servo1.setPower(SWIPE_SPEED);
-        isSwipeOut = false;
+        servo1.setPower(WIPE_SPEED);
+        isWipeOut = false;
         isRunning = true;
     }
 
-    public void swipeOut() {
+    public void wipeOut() {
         servo1.setDirection(CRServo.Direction.REVERSE);
-        servo1.setPower(SWIPE_SPEED);
-        isSwipeOut = true;
+        servo1.setPower(WIPE_SPEED);
+        isWipeOut = true;
         isRunning = true;
     }
 
-    public void swipeStop() {
+    public void wipeStop() {
         servo1.setPower(0);
     }
 
-    public void swipePause() {
+    public void wipePause() {
         isRunning = isRunning?false:true;
         if(isRunning){
-            if(isSwipeOut) swipeOut();
-            else swipeIn();
+            if(isWipeOut) wipeOut();
+            else wipeIn();
         }
-        else swipeStop();
+        else wipeStop();
     }
 
-    public void swipeInOut(float power) {
-        float speed = power;
-        servo1.setPower(Range.clip(speed,-1.0,1.0));
+    public void wipeInOut(float power) {
+        servo1.setPower(Range.clip(power,-1.0,1.0));
     }
 
     public void openHolder(){
