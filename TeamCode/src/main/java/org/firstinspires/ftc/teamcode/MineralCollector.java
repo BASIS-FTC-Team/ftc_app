@@ -17,6 +17,8 @@ public class MineralCollector {
     double HOLDER_CLOSED = 0.23;
 
     double SWIPE_SPEED = 0.99;
+    boolean isRunning = false;
+    boolean isSwipeOut = false;
 
 
 
@@ -41,15 +43,28 @@ public class MineralCollector {
     public void swipeIn() {
         servo1.setDirection(CRServo.Direction.FORWARD);
         servo1.setPower(SWIPE_SPEED);
+        isSwipeOut = false;
+        isRunning = true;
     }
 
     public void swipeOut() {
         servo1.setDirection(CRServo.Direction.REVERSE);
         servo1.setPower(SWIPE_SPEED);
+        isSwipeOut = true;
+        isRunning = true;
     }
 
     public void swipeStop() {
         servo1.setPower(0);
+    }
+
+    public void swipePause() {
+        isRunning = isRunning?false:true;
+        if(isRunning){
+            if(isSwipeOut) swipeOut();
+            else swipeIn();
+        }
+        else swipeStop();
     }
 
     public void swipeInOut(float power) {
