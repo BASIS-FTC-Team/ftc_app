@@ -127,8 +127,8 @@ public class TeleOpTest extends LinearOpMode {
             helper.update();
             helper2.update();
 
-            double drivey =  gamepad1.left_stick_y;
-            double drivex =  gamepad1.left_stick_x;
+            double drivey =  -gamepad1.left_stick_y;
+            double drivex =  -gamepad1.left_stick_x;
             double turn  =  -gamepad1.right_stick_x;
 
 
