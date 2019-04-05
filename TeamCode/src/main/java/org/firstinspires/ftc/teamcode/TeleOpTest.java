@@ -149,6 +149,8 @@ public class TeleOpTest extends LinearOpMode {
             if (gamepad1.b) { foreArm.moveUp();}
             if (gamepad1.x) { foreArm.moveDown();}
 
+            if (gamepad1.a) { foreArm.moveForward();}
+            if (gamepad1.y) { foreArm.moveBackward();}
 
             if(helper.pressed(dpad_up)){
                 if(!roverArm.isTouched())

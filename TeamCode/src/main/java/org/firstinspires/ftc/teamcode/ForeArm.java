@@ -19,7 +19,10 @@ public class ForeArm {
     private DcMotor motor1;
     private DcMotor motor2;
 
+    private DcMotor motor3;
+
     double FOREARM_POWER = 0.30;
+    double FOREBACK_POWER = 0.30;
 
     double container_position = 0.20;
     HardwareMap hwMap = null;
@@ -29,16 +32,22 @@ public class ForeArm {
         hwMap = Map;
         motor1 = hwMap.get(DcMotor.class, "forearm1");
         motor2 = hwMap.get(DcMotor.class, "forearm2");
-        //touchSensor = hwMap.get(DigitalChannel.class, "elevator_touch");
+        motor3 = hwMap.get(DcMotor.class, "forearm3");
+
         motor1.setDirection(DcMotor.Direction.FORWARD);
         motor2.setDirection(DcMotor.Direction.REVERSE);
         motor1.setPower(0);
         motor2.setPower(0);
 
+        motor3.setDirection(DcMotor.Direction.FORWARD);
+        motor3.setPower(0);
+
         motor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motor3.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         FOREARM_POWER = config.getDouble("forearm_power", 0.30);
+        FOREBACK_POWER = config.getDouble("foreback_power",0.30);
 
     }
 
@@ -82,7 +91,25 @@ public class ForeArm {
         motor1.setPower(0);
         motor1.setDirection(DcMotor.Direction.REVERSE);
         motor1.setPower(0);
+    }
+
+    public void moveForward() {
+
+        motor3.setDirection(DcMotor.Direction.FORWARD);
+        motor3.setPower(1.0 * FOREBACK_POWER);
+    }
+
+    public void moveBackward() {
+
+        motor3.setDirection(DcMotor.Direction.REVERSE);
+        motor3.setPower(1.0 * FOREBACK_POWER);
+    }
+
+    public void moveForthBack(double power) {
+        motor3.setDirection(DcMotor.Direction.FORWARD);
+        motor3.setPower(power);
 
     }
+
 
 }
