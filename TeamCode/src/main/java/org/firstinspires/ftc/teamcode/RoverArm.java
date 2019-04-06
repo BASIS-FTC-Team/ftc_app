@@ -17,7 +17,9 @@ public class RoverArm {
     //private DcMotor verticalMotor2;
 
     private DigitalChannel touchSensor;
-    double LIFT_POWER = 0.30;
+    double LIFT_POWER = 1.0;
+
+    int LIFT_COUNTS_PER_UPDOWN_EFFORT =50;
 
     double container_position = 0.20;
     HardwareMap hwMap = null;
@@ -26,19 +28,15 @@ public class RoverArm {
     public void init(HardwareMap Map, Config config) {
         hwMap = Map;
         verticalMotor = hwMap.get(DcMotor.class, "rover_elevator");
-        //verticalMotor2 = hwMap.get(DcMotor.class, "rover_elevator2");
         touchSensor = hwMap.get(DigitalChannel.class, "elevatortouch");
         verticalMotor.setDirection(DcMotor.Direction.REVERSE);
-        //verticalMotor2.setDirection(DcMotor.Direction.REVERSE);
-//    verticalMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//    verticalMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        LIFT_POWER = config.getDouble("lift_power", 0.30);
+        LIFT_POWER = config.getDouble("lift_power", 1.0);
+        LIFT_COUNTS_PER_UPDOWN_EFFORT = config.getInt("lift_counts_per_updown_effort", 50);
 
         verticalMotor.setDirection(DcMotor.Direction.FORWARD);
         verticalMotor.setPower(0);
-        //verticalMotor2.setDirection(DcMotor.Direction.FORWARD);
-        //verticalMotor2.setPower(0);
+
     }
 
 
@@ -48,36 +46,46 @@ public class RoverArm {
 
     public void setLiftZeroPosition() {
         verticalMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        //verticalMotor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
 
     public void moveUpOrDown(double power) {
         verticalMotor.setDirection(DcMotor.Direction.FORWARD);
         verticalMotor.setPower(power);
-        //verticalMotor2.setDirection(DcMotor.Direction.FORWARD);
-        //verticalMotor2.setPower(power);
     }
 
     public void moveUp() {
-        verticalMotor.setDirection(DcMotor.Direction.FORWARD);
-        verticalMotor.setPower(-1.0 * LIFT_POWER);
-//        verticalMotor2.setDirection(DcMotor.Direction.FORWARD);
-//        verticalMotor2.setPower(-1.0 * LIFT_POWER);
+
+        int newTarget;
+        newTarget  = verticalMotor.getCurrentPosition() + LIFT_COUNTS_PER_UPDOWN_EFFORT;
+        verticalMotor.setPower(LIFT_POWER);
+        verticalMotor.setTargetPosition(newTarget);
+        verticalMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+
+//        verticalMotor.setDirection(DcMotor.Direction.FORWARD);
+//        verticalMotor.setPower(-1.0 * LIFT_POWER);
     }
 
     public void moveDown() {
-        verticalMotor.setDirection(DcMotor.Direction.FORWARD);
+
+        int newTarget;
+        newTarget  = verticalMotor.getCurrentPosition() - LIFT_COUNTS_PER_UPDOWN_EFFORT;
         verticalMotor.setPower(LIFT_POWER);
-//        verticalMotor2.setDirection(DcMotor.Direction.FORWARD);
-//        verticalMotor2.setPower(LIFT_POWER);
+        verticalMotor.setTargetPosition(newTarget);
+        verticalMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+//        verticalMotor.setDirection(DcMotor.Direction.FORWARD);
+//        verticalMotor.setPower(LIFT_POWER);
     }
 
     public void stop() {
-        verticalMotor.setDirection(DcMotor.Direction.FORWARD);
+
+        verticalMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         verticalMotor.setPower(0);
-//        verticalMotor2.setDirection(DcMotor.Direction.FORWARD);
-//        verticalMotor2.setPower(0);
+
+//        verticalMotor.setDirection(DcMotor.Direction.FORWARD);
+//        verticalMotor.setPower(0);
     }
 
     public boolean isTouched() {
