@@ -103,7 +103,6 @@ public class TeleOpTest extends LinearOpMode {
         RoverArm roverArm = new RoverArm();
         ForeArm foreArm = new ForeArm();
         MineralCollector mineralCollector = new MineralCollector();
-
         DriveTrain driveTrain = new DriveTrain();
 
         driveTrain.init(hardwareMap,config);
@@ -129,7 +128,7 @@ public class TeleOpTest extends LinearOpMode {
 
             double drivey =  -gamepad1.left_stick_y;
             double drivex =  -gamepad1.left_stick_x;
-            double turn  =  -gamepad1.right_stick_x;
+            double turn  =  gamepad1.right_stick_x;
 
 
             /* For Forearm to move UP or DOWN */
@@ -183,7 +182,7 @@ public class TeleOpTest extends LinearOpMode {
             } else {
                 drivey = -gamepad2.left_stick_y * 0.25;
                 drivex = -gamepad2.left_stick_x * 0.25;
-                turn = -gamepad2.right_stick_x * 0.25;
+                turn = gamepad2.right_stick_x * 0.25;
                 driveTrain.move(drivex, drivey, turn);
             }
 

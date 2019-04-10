@@ -149,7 +149,7 @@ public class DriveTrainByEncoder
         TelemetryWrapper.setLine(0,  "Running to (x,y,r)=("+xMillimeters+":"+yMillimeters +":"+rAnglesInDegree+")");
         TelemetryWrapper.setLine(1,  "Wheels to (lf,rf,lr,rr) ("+newLeftFrontTarget+":"+newRightFrontTarget +":"+newLeftBackTarget+":"+newRightBackTarget+")");
         while (
-                (runtime.seconds()< timeoutS) &&
+                (runtime.seconds()< timeoutS) ||
                 (leftFront.isBusy() && rightFront.isBusy() && leftBack.isBusy() && rightBack.isBusy())) {
 
             // Display it for the driver.

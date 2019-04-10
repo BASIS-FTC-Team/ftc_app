@@ -5,9 +5,11 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.vuforia.Vuforia;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
+
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 
@@ -23,6 +25,8 @@ public class GoldDetector{
     private static final String LABEL_GOLD_MINERAL = "Gold Mineral";
     private static final String LABEL_SILVER_MINERAL = "Silver Mineral";
     private static final String VUFORIA_KEY = "Ac4SO4P/////AAAAmYo+Dd1E4komrpVteq5yhwyKezLLi2tGgobkZ33Cw+FfGBDlxL282Ow6UJycv6OKKGKtALv6scAq+4cHivE+XPOu6008QHCI0P6yx8X9vb8IKrLWM7dC2ZaWp1Em6rVZFS9q/SnAWVjU1J2oZFNKK5t2jsfpcFV+vN+ZCyNXT+kBsk8mLKwesanwvrCoja1i4Ycs/8FJt7G7EVL2H+wQtGH1Q2sy/AGhJRXAiOyZHM97UBhOptoY9trn6omnmlO3/z8Gr+ntJEqXA/GdyHbJkRcI3bG+vxU3fhUsX3W5Gm7dUs3dX2po7Kz1Q38ABtrLuwpJd1abPHZvSt1vrKe8p5JJtk9ABMZcgPXBBL7eOUr6";
+
+
     /**
      * {@link #vuforia} is the variable we will use to store our instance of the Vuforia
      * localization engine.
