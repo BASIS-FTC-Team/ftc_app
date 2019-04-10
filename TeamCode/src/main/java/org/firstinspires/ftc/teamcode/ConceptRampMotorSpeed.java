@@ -56,7 +56,7 @@ public class ConceptRampMotorSpeed extends LinearOpMode {
     static final double MAX_REV     = -1.0;     // Maximum REV power applied to motor
 
     // Define class members
-    DcMotor motor;
+    DcMotor motor, motor2;
     double  power   = 0;
     boolean rampUp  = true;
 
@@ -67,6 +67,7 @@ public class ConceptRampMotorSpeed extends LinearOpMode {
         // Connect to motor (Assume standard left wheel)
         // Change the text in quotes to match any motor name on your robot.
         motor = hardwareMap.get(DcMotor.class, "left_drive");
+        motor2 = hardwareMap.get(DcMotor.class, "fr_drive");
 
         // Wait for the start button
         telemetry.addData(">", "Press Start to run Motors." );
@@ -76,23 +77,23 @@ public class ConceptRampMotorSpeed extends LinearOpMode {
         // Ramp motor speeds till stop pressed.
         while(opModeIsActive()) {
 
-            // Ramp the motors, according to the rampUp variable.
-            if (rampUp) {
-                // Keep stepping up until we hit the max value.
-                power += INCREMENT ;
-                if (power >= MAX_FWD ) {
-                    power = MAX_FWD;
-                    rampUp = !rampUp;   // Switch ramp direction
+
+                // Ramp the motors, according to the rampUp variable.
+                if (rampUp) {
+                    // Keep stepping up until we hit the max value.
+                    power += INCREMENT;
+                    if (power >= MAX_FWD) {
+                        power = MAX_FWD;
+                        rampUp = !rampUp;   // Switch ramp direction
+                    }
+                } else {
+                    // Keep stepping down until we hit the min value.
+                    power -= INCREMENT;
+                    if (power <= MAX_REV) {
+                        power = MAX_REV;
+                        rampUp = !rampUp;  // Switch ramp direction
+                    }
                 }
-            }
-            else {
-                // Keep stepping down until we hit the min value.
-                power -= INCREMENT ;
-                if (power <= MAX_REV ) {
-                    power = MAX_REV;
-                    rampUp = !rampUp;  // Switch ramp direction
-                }
-            }
 
             // Display the current value
             telemetry.addData("Motor Power", "%5.2f", power);
@@ -103,6 +104,15 @@ public class ConceptRampMotorSpeed extends LinearOpMode {
             motor.setPower(power);
             sleep(CYCLE_MS);
             idle();
+
+            if(gamepad1.dpad_left){
+                motor2.setPower(1);
+            }
+            else if(gamepad1.dpad_right){
+                motor2.setPower(-1);
+            }
+            else
+                idle();
         }
 
         // Turn off motor and signal done;

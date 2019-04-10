@@ -12,6 +12,13 @@ import org.firstinspires.ftc.teamcode.util.telemetry.TelemetryWrapper;
 import org.firstinspires.ftc.teamcode.GoldDetector;
 import javax.microedition.khronos.opengles.GL;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
+import java.util.Map;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+
+import org.firstinspires.ftc.teamcode.util.Config;
+import com.qualcomm.robotcore.util.Range;
+
 
 
 @Autonomous(name = "AutoRedFront")
@@ -70,6 +77,13 @@ public class AutoRedFront extends LinearOpMode {
             }
         }
 
+
+        motor0 = hardwareMap.get(DcMotor.class, "fl_drive");
+        motor1= hardwareMap.get(DcMotor.class, "rl_drive");
+        motor2 = hardwareMap.get(DcMotor.class, "fr_drive");
+        motor3 = hardwareMap.get(DcMotor.class, "rr_drive");
+
+
         //Code here to lower the robot
         motor0.setPower(1);
         motor1.setPower(1);
@@ -84,21 +98,45 @@ public class AutoRedFront extends LinearOpMode {
         motor3.setPower(0);
 
         if(detectID == 1){
-            motor0.setPower(1);
-            motor1.setPower(-1);
-            motor2.setPower(-1);
-            motor3.setPower(1);
-        }
-        else if(detectID == 2){
             motor0.setPower(-1);
             motor1.setPower(1);
             motor2.setPower(1);
             motor3.setPower(-1);
         }
+        else if(detectID == 2){
+            motor0.setPower(1);
+            motor1.setPower(-1);
+            motor2.setPower(-1);
+            motor3.setPower(1);
+        }
         else{
-
+            motor0.setPower(1);
+            motor1.setPower(1);
+            motor2.setPower(1);
+            motor3.setPower(1);
         }
 
+        sleep(500);
+
+        motor0.setPower(1);
+        motor1.setPower(1);
+        motor2.setPower(1);
+        motor3.setPower(1);
+
+        motor0.setPower(-1);
+        motor1.setPower(-1);
+        motor2.setPower(1);
+        motor3.setPower(1);
+
+        motor0.setPower(-1);
+        motor1.setPower(1);
+        motor2.setPower(1);
+        motor3.setPower(-1);
+
+        motor0.setPower(1);
+        motor1.setPower(1);
+        motor2.setPower(1);
+        motor3.setPower(1);
 
     }
 

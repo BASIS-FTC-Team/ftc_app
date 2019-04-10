@@ -11,6 +11,7 @@ public class ProgressBar {
     private final char finished;
     private final String border;
     private int progress;
+
     public ProgressBar(int max) {
         this(max, 10);
     }
