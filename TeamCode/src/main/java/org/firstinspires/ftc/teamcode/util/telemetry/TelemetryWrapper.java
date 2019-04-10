@@ -16,7 +16,7 @@ public class TelemetryWrapper {
         render();
     }
 
-    private static void render() {
+    public static void render() {
         for (int i = 0; i < lines.length; i++) {
             if (lines[i] == null)
                 lines[i] = "";
